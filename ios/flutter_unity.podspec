@@ -4,22 +4,26 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_unity'
-  s.version          = '0.0.1'
+  s.version          = '0.1.0'
   s.summary          = 'A Flutter plugin for embedding Unity projects in Flutter projects.'
   s.description      = <<-DESC
 A Flutter plugin for embedding Unity projects in Flutter projects.
                        DESC
-  s.homepage         = 'https://github.com/Glartek/flutter-unity'
+  s.homepage         = 'https://github.com/gatari/flutter-unity'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Pedro Godinho' => 'pmcgbox@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '8.0'
+  s.frameworks = 'UnityFramework'
 
+  s.ios.deployment_target = '9.0'
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
 
-  s.xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "${PODS_CONFIGURATION_BUILD_DIR}"', 'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework' }
+  s.xcconfig = {
+    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "${PODS_CONFIGURATION_BUILD_DIR}" "${PODS_ROOT}/../UnityProject"',
+    'OTHER_LDFLAGS' => '$(inherited) -framework UnityFramework ${PODS_LIBRARIES}'
+  }
 end
