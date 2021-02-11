@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 A Flutter plugin for embedding Unity projects in Flutter projects.
                        DESC
-  s.homepage         = 'https://github.com/t5ujiri/flutter-unity'
+  s.homepage         = 'https://github.com/gatari/flutter-unity'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Pedro Godinho' => 'pmcgbox@gmail.com' }
   s.source           = { :path => '.' }
