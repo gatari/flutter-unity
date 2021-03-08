@@ -18,12 +18,12 @@ class UnityViewController {
     switch (call.method) {
       case 'onUnityViewReattached':
         if (_view.onReattached != null) {
-          _view.onReattached(this);
+          _view.onReattached!.call(this);
         }
         return null;
       case 'onUnityViewMessage':
         if (_view.onMessage != null) {
-          _view.onMessage(this, call.arguments);
+          _view.onMessage!.call(this, call.arguments);
         }
         return null;
       default:
@@ -65,22 +65,22 @@ typedef void UnityViewMessageCallback(
 
 class UnityView extends StatefulWidget {
   const UnityView({
-    Key key,
+    Key? key,
     this.onCreated,
     this.onReattached,
     this.onMessage,
   }) : super(key: key);
 
-  final UnityViewCreatedCallback onCreated;
-  final UnityViewReattachedCallback onReattached;
-  final UnityViewMessageCallback onMessage;
+  final UnityViewCreatedCallback? onCreated;
+  final UnityViewReattachedCallback? onReattached;
+  final UnityViewMessageCallback? onMessage;
 
   @override
   _UnityViewState createState() => _UnityViewState();
 }
 
 class _UnityViewState extends State<UnityView> {
-  UnityViewController controller;
+  UnityViewController? controller;
 
   @override
   void initState() {
@@ -96,9 +96,9 @@ class _UnityViewState extends State<UnityView> {
   @override
   void dispose() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      controller?._channel?.invokeMethod('dispose');
+      controller?._channel.invokeMethod('dispose');
     }
-    controller?._channel?.setMethodCallHandler(null);
+    controller?._channel.setMethodCallHandler(null);
     super.dispose();
   }
 
@@ -110,13 +110,11 @@ class _UnityViewState extends State<UnityView> {
           viewType: 'unity_view',
           onPlatformViewCreated: onPlatformViewCreated,
         );
-        break;
       case TargetPlatform.iOS:
         return UiKitView(
           viewType: 'unity_view',
           onPlatformViewCreated: onPlatformViewCreated,
         );
-        break;
       default:
         throw UnsupportedError('Unsupported platform: $defaultTargetPlatform');
     }
@@ -124,8 +122,8 @@ class _UnityViewState extends State<UnityView> {
 
   void onPlatformViewCreated(int id) {
     controller = UnityViewController._(widget, id);
-    if (widget.onCreated != null) {
-      widget.onCreated(controller);
+    if (controller != null) {
+      widget.onCreated?.call(controller!);
     }
   }
 }
