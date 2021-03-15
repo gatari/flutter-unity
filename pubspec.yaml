@@ -6,11 +6,11 @@ description: A Flutter plugin for embedding Unity projects in Flutter projects.
 # shifted down one slot: going from 0.1.2 to 0.2.0 indicates a breaking change,
 # going to 0.1.3 indicates a new feature, and going to 0.1.2+1 indicates a
 # change that doesn’t affect the public API.
-version: 1.0.0+1
+version: 1.0.0-nullsafety.2
 # author: Pedro Godinho
-homepage: https://github.com/Glartek/flutter-unity
-repository: https://github.com/Glartek/flutter-unity
-issue_tracker: https://github.com/Glartek/flutter-unity/issues
+homepage: https://github.com/gatari/flutter-unity
+repository: https://github.com/gatari/flutter-unity
+issue_tracker: https://github.com/gatari/flutter-unity/issues
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
