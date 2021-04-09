@@ -1,6 +1,8 @@
 #import "FlutterUnityPlugin.h"
 
 #import <UnityFramework/UnityFramework.h>
+#import <ReplayKit/ReplayKit.h>
+#import <Photos/Photos.h>
 
 UnityFramework * gUfw;
 
@@ -10,7 +12,7 @@ void UfwLoad()
     if (once) return;
     once = true;
     NSString * bundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:
-        @"/Frameworks/UnityFramework.framework"];
+                             @"/Frameworks/UnityFramework.framework"];
     NSBundle * bundle = [NSBundle bundleWithPath: bundlePath];
     if (![bundle isLoaded]) {
         [bundle load];
@@ -69,7 +71,7 @@ NSMutableArray * gViews;
 @interface FlutterUnityView : NSObject<FlutterPlatformView>
 
 - (instancetype)initWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId binaryMessenger:
-    (NSObject<FlutterBinaryMessenger> *)messenger;
+(NSObject<FlutterBinaryMessenger> *)messenger;
 
 @end
 
@@ -80,17 +82,17 @@ NSMutableArray * gViews;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame viewIdentifier:(int64_t)viewId binaryMessenger:
-    (NSObject<FlutterBinaryMessenger> *)messenger {
+(NSObject<FlutterBinaryMessenger> *)messenger {
     if (self = [super init]) {
         [gViews addObject: self];
         _viewId = viewId;
         _view = [[FrameLayout alloc] initWithFrame: frame];
         [_view setBackgroundColor: [UIColor blackColor]];
         _channel = [FlutterMethodChannel methodChannelWithName:
-            [NSString stringWithFormat: @"unity_view_%lld", viewId] binaryMessenger: messenger];
+                    [NSString stringWithFormat: @"unity_view_%lld", viewId] binaryMessenger: messenger];
         __weak __typeof(self) weakSelf = self;
         [_channel setMethodCallHandler:
-            ^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
+         ^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
             [weakSelf onMethodCall: call result: result];
         }];
         [self _attach];
@@ -116,30 +118,29 @@ NSMutableArray * gViews;
         if ([call.method isEqualToString: @"pause"]) {
             UfwPause();
             result(nil);
-        } else
-        if ([call.method isEqualToString: @"resume"]) {
+        } else if ([call.method isEqualToString: @"resume"]) {
             UfwResume();
             result(nil);
-        } else
-        if ([call.method isEqualToString: @"send"]) {
+        } else if ([call.method isEqualToString: @"send"]) {
             NSDictionary * jsonObject = [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSNumber numberWithLongLong: _viewId], @"id",
-                call.arguments[@"message"], @"data",
-                nil];
+                                         [NSNumber numberWithLongLong: _viewId], @"id",
+                                         call.arguments[@"message"], @"data",
+                                         nil];
             NSError * error;
             NSData * jsonData = [NSJSONSerialization dataWithJSONObject: jsonObject options: kNilOptions error: &error];
             if (!jsonData && error) {
                 NSLog(@"%@", [error localizedDescription]);
                 result([FlutterError errorWithCode: [NSString stringWithFormat: @"%ld", (long)[error code]]
-                    message: [error localizedDescription]
-                    details: nil]);
+                                           message: [error localizedDescription]
+                                           details: nil]);
             } else {
                 [gUfw sendMessageToGOWithName: [call.arguments[@"gameObjectName"] UTF8String]
-                    functionName: [call.arguments[@"methodName"] UTF8String]
-                    message: [[[NSString alloc] initWithData: jsonData encoding: NSUTF8StringEncoding] UTF8String]];
+                                 functionName: [call.arguments[@"methodName"] UTF8String]
+                                      message: [[[NSString alloc] initWithData: jsonData encoding: NSUTF8StringEncoding] UTF8String]];
                 result(nil);
             }
-        } else {
+        } 
+        else {
             result(FlutterMethodNotImplemented);
         }
     }
@@ -212,9 +213,9 @@ NSMutableArray * gViews;
 }
 
 - (nonnull NSObject<FlutterPlatformView> *)createWithFrame:(CGRect)frame
-    viewIdentifier:(int64_t)viewId arguments:(id _Nullable)args {
+                                            viewIdentifier:(int64_t)viewId arguments:(id _Nullable)args {
     FlutterUnityView * view = [[FlutterUnityView alloc] initWithFrame: frame viewIdentifier: viewId
-        binaryMessenger: _messenger];
+                                                      binaryMessenger: _messenger];
     return view;
 }
 
