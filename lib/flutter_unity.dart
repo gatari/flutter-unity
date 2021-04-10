@@ -17,14 +17,10 @@ class UnityViewController {
   Future<dynamic> _methodCallHandler(MethodCall call) async {
     switch (call.method) {
       case 'onUnityViewReattached':
-        if (_view.onReattached != null) {
-          _view.onReattached!.call(this);
-        }
+        _view.onReattached?.call(this);
         return null;
       case 'onUnityViewMessage':
-        if (_view.onMessage != null) {
-          _view.onMessage!.call(this, call.arguments);
-        }
+        _view.onMessage?.call(this, call.arguments);
         return null;
       default:
         throw UnimplementedError('Unimplemented method: ${call.method}');
@@ -55,9 +51,11 @@ class UnityViewController {
 typedef void UnityViewCreatedCallback(
   UnityViewController controller,
 );
+
 typedef void UnityViewReattachedCallback(
   UnityViewController controller,
 );
+
 typedef void UnityViewMessageCallback(
   UnityViewController controller,
   String message,

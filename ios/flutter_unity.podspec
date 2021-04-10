@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_unity'
-  s.version          = '0.1.0'
+  s.version          = '1.1.0'
   s.summary          = 'A Flutter plugin for embedding Unity projects in Flutter projects.'
   s.description      = <<-DESC
 A Flutter plugin for embedding Unity projects in Flutter projects.
@@ -18,7 +18,7 @@ A Flutter plugin for embedding Unity projects in Flutter projects.
   s.dependency 'Flutter'
   s.frameworks = 'UnityFramework'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '11.0'
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
 
