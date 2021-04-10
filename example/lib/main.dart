@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_unity/flutter_unity.dart';
 
@@ -75,10 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          _controller.send(
+            "FlutterMessageReceiver",
+            "OnReceive",
+            "increment",
+          );
         },
         tooltip: 'Increment',
-        child: Icon(Icons.camera),
+        child: Icon(Icons.plus_one),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
