@@ -12,7 +12,7 @@ To use this plugin, add `flutter_unity` as a [dependency in your pubspec.yaml fi
     flutter_unity:
         git:
             url: git@github.com:gatari/flutter-unity.git
-            ref: 1.0.0-nullsafety.2
+            ref: 1.1.0
 ```
 
 ## Example
@@ -72,13 +72,11 @@ flatDir {
     dirs "${project(':unityExport').projectDir}/libs"
 }
 ```
-
-1. Open `<your_flutter_project>/android/settings.gradle` and add the following:
+3. Open `<your_flutter_project>/android/settings.gradle` and add the following:
 ```
 include ':unityExport'
 ```
-
-1. Open `<your_flutter_project>/android/app/src/main/AndroidManifest.xml` and add the following:
+4. Open `<your_flutter_project>/android/app/src/main/AndroidManifest.xml` and add the following:
 ```
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 ```
@@ -87,9 +85,8 @@ Steps 1 must be repeated for every new build of the Unity project.
 
 #### iOS
 1. Open `<your_flutter_project>/ios/Runner.xcworkspace` in **Xcode**.
-1. Go to **File** > **Add Files to "Runner"...**, and add `<your_flutter_project>/ios/UnityProject/Unity-iPhone.xcodeproj`.
-
-1. Select `Runner`, select **TARGETS** : **Runner**, and, in the **General** tab, configure the following:
+2. Go to **File** > **Add Files to "Runner"...**, and add `<your_flutter_project>/ios/UnityProject/Unity-iPhone.xcodeproj`.
+3. Select `Runner`, select **TARGETS** : **Runner**, and, in the **General** tab, configure the following:
 <table>
   <thead>
     <tr>
@@ -128,23 +125,29 @@ Steps 1 must be repeated for every new build of the Unity project.
 </table>
 
 ## Exchanging messages between Flutter and Unity
+
 #### Flutter
+
 To send a message, define the `onCreated` callback in your `UnityView` widget, and use the `send` method from the received `controller`.
 
 To receive a message, define the `onMessage` callback in your `UnityView` widget.
+
 #### Unity
-To export from Unity editor, use [Unity package](https://github.com/t5ujiri/flutter_unity_blueprints/tree/main/unity/flutter_unity_blueprints_unity/Packages).
+
+To export from Unity editor, import [Unity Package](https://github.com/t5ujiri/flutter-unity/tree/main/example/unity/Packages).
 Post build process scripts are in Editor directory to transform exported builds, making them adapt to flutter app.
-```
+
+```json
 "dependencies": {
     ...
-    "net.caffeineinject.flutter-unity-plugin": "https://github.com/t5ujiri/flutter_unity_blueprints.git?path=unity/flutter_unity_blueprints_unity/Packages/FlutterUnityPlugin"
+    "net.caffeineinject.flutter-unity-plugin": "https://github.com/t5ujiri/flutter-unity.git?path=example/unity/flutter_unity_example_unity/Packages/FlutterUnityPlugin"
     ...
 }
-
 ```
 
-To send and receive messages, include [FlutterMessageHandler.cs](https://github.com/t5ujiri/flutter_unity_blueprints/blob/main/unity/flutter_unity_blueprints_unity/Packages/FlutterUnityPlugin/Runtime/View/FlutterMessageHandler.cs) in your Scene, and use the `Messages.Send` and `Messages.Receive` methods.
+To send messages from Unity, use [Messages.Send](https://github.com/t5ujiri/flutter_unity_blueprints/blob/main/example/unity/flutter_unity_example_unity/Packages/FlutterUnityPlugin/Runtime/Messages.cs);
+
+To receive messages, use singleton instance of [FlutterMessageReceiver](https://github.com/t5ujiri/flutter_unity_blueprints/blob/main/example/unity/flutter_unity_example_unity/Packages/FlutterUnityPlugin/Runtime/FlutterMessageReceiver.cs).
 
 A `Message` object has the following members:
 

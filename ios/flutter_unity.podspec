@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_unity'
-  s.version          = '0.1.0'
+  s.version          = '1.1.0'
   s.summary          = 'A Flutter plugin for embedding Unity projects in Flutter projects.'
   s.description      = <<-DESC
 A Flutter plugin for embedding Unity projects in Flutter projects.
